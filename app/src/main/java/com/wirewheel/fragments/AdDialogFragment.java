@@ -107,13 +107,7 @@ public class AdDialogFragment extends DialogFragment {
 
             Context context = getActivity();
             ImageView imageView = new ImageView(context);
-
-            // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // imageView.setPadding(toPx(5), 0, toPx(5), 0);
-            // Ion.with(imageView).centerCrop().load(mImages[position]);
-            // imageView.setBackgroundResource(R.drawable.rounded_pager_image_view);
-            Ion.with(imageView).centerCrop().load(mImages[position]);
+            Ion.with(imageView).fitCenter().load(mImages[position]);
 
             container.addView(imageView, 0);
             return imageView;
