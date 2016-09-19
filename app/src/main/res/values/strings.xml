@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WireWheel</string>
+    <string name="dialog_close">Close</string>
+    <string-array name="test">
+        <item>2007 Lotus Exige S For Sale</item>
+        <item>This is a beautiful Exige S with only 3,466,134 miles!</item>
+        <item>It is a one owner vehicle, only driven in nice weather, never tracked!</item>
+        <item>Asking $500,000</item>
+        <item>Salvage Title, it was split in half on a tree when exiting Mustang Week.</item>
+        <item>Oh wait, I realized that this is a Ford Mustang and not a Lotus Exige.</item>
+    </string-array>
+</resources>
