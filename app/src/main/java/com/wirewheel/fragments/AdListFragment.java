@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
 import com.wirewheel.listings.ListingDatabase;
 import com.wirewheel.wirewheel.R;
@@ -59,7 +60,7 @@ public class AdListFragment extends Fragment {
 
         public void bindListing(Listing listing) {
             mListing = listing;
-            mThumbnailView.setImageResource(mListing.getPhotoResource());
+            Ion.with(mThumbnailView).centerCrop().load(mListing.getKeyImageLink());
             mTitleView.setText(mListing.getTitle());
             mPriceView.setText(mListing.getPrice());
             mMileageView.setText(mListing.getMileage());
