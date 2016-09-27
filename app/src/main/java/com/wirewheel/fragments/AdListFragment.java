@@ -79,8 +79,13 @@ public class AdListFragment extends Fragment {
         ListingDatabase listingDatabase = ListingDatabase.get(getActivity());
         List<Listing> listings = listingDatabase.getListings();
 
-        mListingAdapter = new ListingAdapter(listings);
-        mRecyclerView.setAdapter(mListingAdapter);
+        if (mListingAdapter == null) {
+            mListingAdapter = new ListingAdapter(listings);
+            mRecyclerView.setAdapter(mListingAdapter);
+        } else {
+            mListingAdapter.setListings(listings);
+            mListingAdapter.notifyDataSetChanged();
+        }
     }
 
     private class ListingAdapter extends RecyclerView.Adapter<ListingHolder> {
@@ -106,6 +111,10 @@ public class AdListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mListings.size();
+        }
+
+        public void setListings(List<Listing> listings) {
+            mListings = listings;
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.wirewheel.parsing;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.wirewheel.listings.Listing;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,10 +43,12 @@ public class WebScraper {
 
     private ArrayList<String> ignoreLinks;
 
+    private Context mContext;
     private ExecutorService service;
 
-    public WebScraper() {
+    public WebScraper(Context context) {
         ignoreLinks = new ArrayList<>();
+        mContext = context;
         service = Executors.newFixedThreadPool(MAX_THREADS);
         init();
     }
@@ -131,6 +136,10 @@ public class WebScraper {
         }
 
         return documents;
+    }
+
+    public ArrayList<Listing> getListingsFromUrl(String url) {
+        return null;
     }
 
     public ArrayList<String> getRaceCarLinks() {

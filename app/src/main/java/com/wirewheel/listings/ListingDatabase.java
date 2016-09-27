@@ -1,12 +1,17 @@
 package com.wirewheel.listings;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.wirewheel.database.ListingBaseHelper;
+import com.wirewheel.database.ListingCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.wirewheel.database.ListingDbSchema.ListingTable;
 
 /**
  * Created by Chris on 9/15/2016.
@@ -15,7 +20,7 @@ public class ListingDatabase {
 
     private static ListingDatabase sListingDatabase;
 
-    private List<Listing> mListings;
+    // private List<Listing> mListings;
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
@@ -30,6 +35,7 @@ public class ListingDatabase {
         mContext = context.getApplicationContext();
         mDatabase = new ListingBaseHelper(mContext).getWritableDatabase();
 
+        /*
         mListings = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Listing listing = new Listing();
@@ -41,9 +47,81 @@ public class ListingDatabase {
 
             mListings.add(listing);
         }
+        */
+    }
+
+    private static ContentValues getContentValues(Listing listing) {
+        ContentValues values = new ContentValues();
+        values.put(ListingTable.Cols.LINK, listing.getLink());
+        values.put(ListingTable.Cols.TITLE, listing.getTitle());
+        values.put(ListingTable.Cols.PRICE, listing.getPrice());
+        values.put(ListingTable.Cols.MILEAGE, listing.getMileage());
+        // values.put(ListingTable.Cols.TEXT, listing.getText());
+        values.put(ListingTable.Cols.KEY_IMG_LINK, listing.getKeyImageLink());
+
+        return values;
+    }
+
+    private ListingCursorWrapper queryListings(String whereClause, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(
+                ListingTable.NAME,
+                null, // Select all columns
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        return new ListingCursorWrapper(cursor);
+    }
+
+    public void addListing(Listing listing) {
+        ContentValues values = getContentValues(listing);
+
+        mDatabase.insert(ListingTable.NAME, null, values);
+    }
+
+    public void update(Listing listing) {
+        String link = listing.getLink();
+        ContentValues values = getContentValues(listing);
+
+        mDatabase.update(ListingTable.NAME, values, ListingTable.Cols.LINK + "= ?",
+                new String[] {link} );
+    }
+
+    public Listing getListing(String link) {
+        ListingCursorWrapper cursor = queryListings(
+                ListingTable.Cols.LINK + " = ?",
+                new String[] { link });
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+            return cursor.getListing();
+        } finally {
+            cursor.close();
+        }
     }
 
     public List<Listing> getListings() {
-        return mListings;
+        List<Listing> listings = new ArrayList<>();
+
+        ListingCursorWrapper cursor = queryListings(null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                listings.add(cursor.getListing());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return listings;
     }
 }
