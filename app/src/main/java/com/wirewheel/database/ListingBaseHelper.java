@@ -20,8 +20,7 @@ public class ListingBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + ListingTable.NAME + "("+
-                " _id integer primary key autoincrement, " +
-                ListingTable.Cols.LINK + ", " +
+                ListingTable.Cols.LINK + " PRIMARY KEY, " +
                 ListingTable.Cols.TITLE + ", " +
                 ListingTable.Cols.PRICE + ", " +
                 ListingTable.Cols.MILEAGE + ", " +

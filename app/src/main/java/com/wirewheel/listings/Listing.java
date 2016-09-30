@@ -18,8 +18,8 @@ public class Listing {
     public Listing() {
         link = "";
         title = "";
-        price = "";
-        mileage = "";
+        price = "Unlisted Price";
+        mileage = "Unlisted Mileage";
         text = new ArrayList<>();
         keyImageLink = "";
         imageLinks = new ArrayList<>();

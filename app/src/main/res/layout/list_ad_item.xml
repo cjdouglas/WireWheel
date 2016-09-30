@@ -8,19 +8,22 @@
     android:layout_width="match_parent"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
     card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="0dp"
-    card_view:cardBackgroundColor="@color/colorAccent">
+    card_view:cardCornerRadius="8dp"
+    card_view:cardBackgroundColor="@color/colorPrimary">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp">
+        android:layout_height="260dp"
+        android:backgroundTint="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/list_ad_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"/>
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/list_ad_title"
@@ -33,38 +36,41 @@
             android:textAlignment="center"
             android:textSize="@dimen/list_title_size"
             android:fontFamily="sans-serif-condensed"
-            tools:text="2007 Lotus Exige TCC-SAA Challenge Car"/>
+            tools:text="2007 Lotus Exige S"/>
 
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:weightSum="1">
+        android:weightSum="1.0">
 
         <TextView
             android:id="@+id/list_ad_price_field"
+            android:paddingLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom|left"
+            android:layout_weight="0.5"
+            android:layout_gravity="top"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_weight="0.5"
-            android:textSize="@dimen/list_price_size"
+            android:textSize="24sp"
             tools:text="$53,700"/>
 
         <TextView
             android:id="@+id/list_ad_mileage_field"
+            android:paddingLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom|right"
+            android:layout_weight="0.5"
+            android:layout_gravity="bottom"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_weight="0.5"
             android:textSize="@dimen/list_price_size"
             tools:text="24,000 Miles"/>
 

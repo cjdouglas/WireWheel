@@ -2,8 +2,10 @@ package com.wirewheel.parsing;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.wirewheel.listings.Listing;
+import com.wirewheel.listings.ListingDatabase;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Chris on 9/22/2016.
@@ -49,8 +52,22 @@ public class WebScraper {
     public WebScraper(Context context) {
         ignoreLinks = new ArrayList<>();
         mContext = context;
-        service = Executors.newFixedThreadPool(MAX_THREADS);
+        // service = Executors.newFixedThreadPool(MAX_THREADS);
         init();
+    }
+
+    public void closeService() {
+        try {
+            service.shutdown();
+            service.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            service.shutdownNow();
+            Toast.makeText(mContext, "Error Occurred - Please Refresh", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void openService() {
+        service = Executors.newFixedThreadPool(MAX_THREADS);
     }
 
     private void init() {
@@ -60,7 +77,7 @@ public class WebScraper {
     }
 
     public Document get(String url) throws IOException {
-        return Jsoup.connect(url).get();
+        return Jsoup.connect(url).userAgent("Chrome").get();
     }
 
     public ArrayList<String> getLinksFromMake(String url) {
@@ -70,6 +87,7 @@ public class WebScraper {
             return parseLinksFromElements(elements);
         } catch  (IOException e) {
             Log.e("WebScraper", "Error connecting to url...");
+            // Toast.makeText(mContext, "Connection Error!", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
@@ -96,6 +114,11 @@ public class WebScraper {
     }
 
     public ArrayList<Document> getDocumentsFromLinks(ArrayList<String> urls) {
+
+        if (urls == null) {
+            return null;
+        }
+
         ArrayList<Future<Document>> futures = new ArrayList<>();
         ArrayList<Document> documents = new ArrayList<>();
 
@@ -136,6 +159,59 @@ public class WebScraper {
         }
 
         return documents;
+    }
+
+    public void databaseTest() {
+        ArrayList<Document> documents = getDocumentsFromLinks(getLotusLinks());
+
+        if (documents == null) {
+            return;
+        }
+
+        for (Document document : documents) {
+            Listing listing = new Listing();
+
+            listing.setLink(document.location());
+            listing.setTitle(document.title());
+
+            Elements elementsP = document.select("p");
+            Elements elementsLi = document.select("li");
+
+            for (Element element : elementsP) {
+                elementsLi.add(element);
+            }
+
+            // StringBuffer buffer = new StringBuffer();
+
+            boolean mileage = false;
+
+            for (Element element : elementsLi) {
+                String str = element.text();
+
+                if (str.contains("$")) {
+                    int start = str.indexOf("$");
+                    int end = str.indexOf(" ", start);
+
+                    if (end == -1) {
+                        listing.setPrice(str.substring(start));
+                    } else {
+                        listing.setPrice(str.substring(start, end));
+                    }
+                }
+
+                if (str.contains("miles") && !mileage) {
+                    listing.setMileage(str);
+                    mileage = true;
+                }
+            }
+
+            Elements elements = document.select("td.content").select("img");
+            String url = "http://www.wirewheel.com" + elements.get(3).attr("src");
+
+            listing.setKeyImageLink(url);
+
+            ListingDatabase.get(mContext).addListing(listing);
+        }
     }
 
     public ArrayList<Listing> getListingsFromUrl(String url) {

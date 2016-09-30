@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.wirewheel.database.ListingBaseHelper;
 import com.wirewheel.database.ListingCursorWrapper;
+import com.wirewheel.parsing.WebScraper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class ListingDatabase {
     // private List<Listing> mListings;
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private WebScraper mWebScraper;
 
     public static ListingDatabase get(Context context) {
         if (sListingDatabase == null) {
@@ -34,6 +36,9 @@ public class ListingDatabase {
     private ListingDatabase(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new ListingBaseHelper(mContext).getWritableDatabase();
+        mWebScraper = new WebScraper(mContext);
+
+        refresh("http://www.wirewheel.com/LOTUS.html");
 
         /*
         mListings = new ArrayList<>();
@@ -76,10 +81,25 @@ public class ListingDatabase {
         return new ListingCursorWrapper(cursor);
     }
 
+    /**
+     * This method is called when the user pulls to refresh on an AdListFragment
+     * @param url The page of links we want to refresh from
+     */
+    public void refresh(String url) {
+        new Thread() {
+            @Override
+            public void run() {
+                mWebScraper.openService();
+                mWebScraper.databaseTest();
+                mWebScraper.closeService();
+            }
+        }.start();
+    }
+
     public void addListing(Listing listing) {
         ContentValues values = getContentValues(listing);
 
-        mDatabase.insert(ListingTable.NAME, null, values);
+        mDatabase.insertWithOnConflict(ListingTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     public void update(Listing listing) {

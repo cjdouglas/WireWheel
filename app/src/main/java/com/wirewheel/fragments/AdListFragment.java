@@ -3,6 +3,7 @@ package com.wirewheel.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,16 +25,45 @@ import java.util.List;
 public class AdListFragment extends Fragment {
 
     private static final String DIALOG_AD_LISTING = "DialogAdListing";
+    private static final String ARG_PAGE_LINK = "link";
+
+    public static AdListFragment newInstance(String link) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PAGE_LINK, link);
+
+        AdListFragment adListFragment = new AdListFragment();
+        adListFragment.setArguments(args);
+        return adListFragment;
+    }
 
     private RecyclerView mRecyclerView;
     private ListingAdapter mListingAdapter;
+    private String link;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (getArguments() != null) {
+            link = (String)getArguments().getSerializable(ARG_PAGE_LINK);
+        } else {
+            link = "http://www.wirewheel.com/LOTUS.html";
+        }
+
         View v = inflater.inflate(R.layout.fragment_ad_list, container, false);
 
         mRecyclerView = (RecyclerView)v.findViewById(R.id.list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.list_ad_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ListingDatabase.get(getActivity()).refresh(link);
+                mSwipeRefreshLayout.setRefreshing(false);
+                updateUI();
+            }
+        });
 
         updateUI();
 
@@ -60,7 +90,7 @@ public class AdListFragment extends Fragment {
 
         public void bindListing(Listing listing) {
             mListing = listing;
-            Ion.with(mThumbnailView).centerCrop().load(mListing.getKeyImageLink());
+            Ion.with(mThumbnailView).fitCenter().load(mListing.getKeyImageLink());
             mTitleView.setText(mListing.getTitle());
             mPriceView.setText(mListing.getPrice());
             mMileageView.setText(mListing.getMileage());
@@ -70,7 +100,7 @@ public class AdListFragment extends Fragment {
         public void onClick(View v) {
             // Toast.makeText(getActivity(), mListing.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
             FragmentManager fragmentManager = getFragmentManager();
-            AdDialogFragment adDialogFragment = AdDialogFragment.newInstance();
+            AdDialogFragment adDialogFragment = AdDialogFragment.newInstance(mListing.getLink());
             adDialogFragment.show(fragmentManager, DIALOG_AD_LISTING);
         }
     }

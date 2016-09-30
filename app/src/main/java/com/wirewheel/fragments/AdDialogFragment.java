@@ -9,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
+import com.wirewheel.listings.Listing;
+import com.wirewheel.listings.ListingDatabase;
 import com.wirewheel.wirewheel.R;
 
 /**
@@ -26,26 +27,43 @@ import com.wirewheel.wirewheel.R;
  */
 public class AdDialogFragment extends DialogFragment {
 
+    private static final String ARG_LISTING_LINK = "link";
+
+    private Listing mListing;
     private TextView descriptionView;
     private ViewPager mViewPager;
 
-    public static AdDialogFragment newInstance() {
-        return new AdDialogFragment();
+    public static AdDialogFragment newInstance(String link) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_LISTING_LINK, link);
+
+        AdDialogFragment fragment = new AdDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String link = (String)getArguments().getSerializable(ARG_LISTING_LINK);
+
+        mListing = ListingDatabase.get(getActivity()).getListing(link);
+
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_ad, null);
 
         descriptionView = (TextView) view.findViewById(R.id.ad_description_view);
         descriptionView.setMovementMethod(new ScrollingMovementMethod());
+        descriptionView.append(mListing.getTitle());
+        descriptionView.append("\n");
+        descriptionView.append(mListing.getPrice());
 
+        /*
         String[] strings = getResources().getStringArray(R.array.test);
         for (String str : strings) {
             descriptionView.append(str);
             descriptionView.append("\n\n");
         }
+        */
 
         mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
         ImageAdapter imageAdapter = new ImageAdapter();
@@ -84,6 +102,7 @@ public class AdDialogFragment extends DialogFragment {
     private class ImageAdapter extends PagerAdapter {
 
         // private int[] mImages = {R.drawable.testphoto, R.drawable.testphoto2, R.drawable.testphoto3};
+        /*
         private String[] mImages = {
                 "http://www.wirewheel.com/gallery/177579/2006_Lotus_Elise.jpg",
                 "http://www.wirewheel.com/gallery/177577/2006_Lotus_Elise.jpg",
@@ -91,6 +110,8 @@ public class AdDialogFragment extends DialogFragment {
                 "http://www.wirewheel.com/gallery/177580/2006_Lotus_Elise.jpg",
                 "http://www.wirewheel.com/gallery/177587/2006_Lotus_Elise.jpg",
                 "http://www.wirewheel.com/gallery/177628/2006_Lotus_Elise.jpg" };
+        */
+        private String[] mImages = { mListing.getKeyImageLink() };
 
         @Override
         public int getCount() {
@@ -116,11 +137,6 @@ public class AdDialogFragment extends DialogFragment {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((ImageView) object);
-        }
-
-        private int toPx(int dp) {
-            DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
-            return (int)((dp * displayMetrics.density) + 0.5f);
         }
     }
 }
