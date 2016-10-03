@@ -1,15 +1,13 @@
 package com.wirewheel.activites;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
-import com.wirewheel.wirewheel.R;
+import com.wirewheel.fragments.HomeFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    protected Fragment createFragment() {
+        return new HomeFragment();
     }
 }

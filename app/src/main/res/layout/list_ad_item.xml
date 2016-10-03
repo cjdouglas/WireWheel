@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="320dp"
+    android:layout_height="300dp"
     android:layout_width="match_parent"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
@@ -12,70 +12,82 @@
     android:layout_marginRight="12dp"
     card_view:cardElevation="4dp"
     card_view:cardCornerRadius="8dp"
-    card_view:cardBackgroundColor="@color/colorPrimary">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:backgroundTint="@color/colorPrimary">
-
-        <ImageView
-            android:id="@+id/list_ad_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5dp"/>
-
-        <TextView
-            android:id="@+id/list_ad_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#6A000000"
-            android:padding="10dp"
-            android:textColor="@color/light_grey"
-            android:textAlignment="center"
-            android:textSize="@dimen/list_title_size"
-            android:fontFamily="sans-serif-condensed"
-            tools:text="2007 Lotus Exige S"/>
-
-    </RelativeLayout>
+    card_view:cardBackgroundColor="@color/colorAccent">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:weightSum="1.0">
 
-        <TextView
-            android:id="@+id/list_ad_price_field"
-            android:paddingLeft="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             android:layout_weight="0.5"
-            android:layout_gravity="top"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            tools:text="$53,700"/>
+            android:backgroundTint="@color/colorPrimary">
 
-        <TextView
-            android:id="@+id/list_ad_mileage_field"
-            android:paddingLeft="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            <com.wirewheel.ui.ProportionalImageView
+                android:id="@+id/list_ad_thumbnail"
+                android:src="@drawable/testphoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/list_ad_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#6A000000"
+                android:padding="10dp"
+                android:textColor="@color/light_grey"
+                android:textAlignment="center"
+                android:textSize="@dimen/list_title_size"
+                android:fontFamily="sans-serif-condensed"
+                tools:text="2007 Lotus Exige S"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/list_price_size"
-            tools:text="24,000 Miles"/>
+            android:layout_weight="0.5"
+            android:weightSum="1.0">
+
+            <TextView
+                android:id="@+id/list_ad_price_field"
+                android:paddingLeft="4dp"
+                android:paddingTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_gravity="top"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:text="$53,700"/>
+
+            <TextView
+                android:id="@+id/list_ad_mileage_field"
+                android:paddingLeft="4dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_gravity="bottom"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/list_price_size"
+                tools:text="24,000 Miles"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-
 
 </android.support.v7.widget.CardView>

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 
 import com.wirewheel.database.ListingBaseHelper;
 import com.wirewheel.database.ListingCursorWrapper;
@@ -38,7 +39,7 @@ public class ListingDatabase {
         mDatabase = new ListingBaseHelper(mContext).getWritableDatabase();
         mWebScraper = new WebScraper(mContext);
 
-        refresh("http://www.wirewheel.com/LOTUS.html");
+        refreshPage("http://www.wirewheel.com/LOTUS.html");
 
         /*
         mListings = new ArrayList<>();
@@ -85,15 +86,8 @@ public class ListingDatabase {
      * This method is called when the user pulls to refresh on an AdListFragment
      * @param url The page of links we want to refresh from
      */
-    public void refresh(String url) {
-        new Thread() {
-            @Override
-            public void run() {
-                mWebScraper.openService();
-                mWebScraper.databaseTest();
-                mWebScraper.closeService();
-            }
-        }.start();
+    public void refreshPage(String url) {
+        new RefreshPageTask().execute(url);
     }
 
     public void addListing(Listing listing) {
@@ -143,5 +137,26 @@ public class ListingDatabase {
         }
 
         return listings;
+    }
+
+    private class RefreshPageTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            mWebScraper.openService();
+            // mWebScraper.databaseTest();
+            mWebScraper.loadPage(params[0]);
+            mWebScraper.closeService();
+            return null;
+        }
+    }
+
+    private class RefreshAllTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            mWebScraper.openService();
+            mWebScraper.loadAll();
+            mWebScraper.closeService();
+            return null;
+        }
     }
 }

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.wirewheel.activites.HomeActivity"></activity>
+        <activity android:name="com.wirewheel.activites.AdActivity"></activity>
 
     </application>
     

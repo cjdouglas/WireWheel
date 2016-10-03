@@ -9,12 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
 import com.wirewheel.listings.ListingDatabase;
+import com.wirewheel.ui.ProportionalImageView;
 import com.wirewheel.wirewheel.R;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class AdListFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ListingDatabase.get(getActivity()).refresh(link);
+                refreshDatabase();
                 mSwipeRefreshLayout.setRefreshing(false);
                 updateUI();
             }
@@ -71,7 +71,7 @@ public class AdListFragment extends Fragment {
     }
 
     private class ListingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView mThumbnailView;
+        private ProportionalImageView mThumbnailView;
         private TextView mTitleView;
         private TextView mPriceView;
         private TextView mMileageView;
@@ -82,7 +82,7 @@ public class AdListFragment extends Fragment {
             super(itemView);
             itemView.setOnClickListener(this);
 
-            mThumbnailView = (ImageView)itemView.findViewById(R.id.list_ad_thumbnail);
+            mThumbnailView = (ProportionalImageView)itemView.findViewById(R.id.list_ad_thumbnail);
             mTitleView = (TextView)itemView.findViewById(R.id.list_ad_title);
             mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price_field);
             mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage_field);
@@ -103,6 +103,10 @@ public class AdListFragment extends Fragment {
             AdDialogFragment adDialogFragment = AdDialogFragment.newInstance(mListing.getLink());
             adDialogFragment.show(fragmentManager, DIALOG_AD_LISTING);
         }
+    }
+
+    private void refreshDatabase() {
+        ListingDatabase.get(getActivity()).refreshPage(link);
     }
 
     private void updateUI() {

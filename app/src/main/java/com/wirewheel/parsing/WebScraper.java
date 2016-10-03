@@ -161,6 +161,78 @@ public class WebScraper {
         return documents;
     }
 
+    public void loadPage(String url) {
+        ArrayList<Document> documents = getDocumentsFromLinks(getLinksFromMake(url));
+
+        if (documents == null) {
+            return;
+        }
+
+        for (Document document : documents) {
+            Listing listing = new Listing();
+
+            listing.setLink(document.location());
+            listing.setTitle(document.title());
+
+            // Filter out "for sale" in title
+            String title = listing.getTitle();
+            if (title.contains("for sale")) {
+                String substring = title.substring(0, title.indexOf("for") - 1);
+                // listing.setTitle(title.substring(0, title.indexOf("for sale")));
+                listing.setTitle(substring);
+            }
+
+            Elements elementsP = document.select("p");
+            Elements elementsLi = document.select("li");
+
+            for (Element element : elementsP) {
+                elementsLi.add(element);
+            }
+
+            // StringBuffer buffer = new StringBuffer();
+
+            boolean mileage = false;
+
+            for (Element element : elementsLi) {
+                String str = element.text();
+
+                if (str.contains("$")) {
+                    int start = str.indexOf("$");
+                    int end = str.indexOf(" ", start);
+
+                    if (end == -1) {
+                        listing.setPrice(str.substring(start));
+                    } else {
+                        listing.setPrice(str.substring(start, end));
+                    }
+                }
+
+                if (str.contains("miles") && !mileage) {
+                    listing.setMileage(str);
+                    mileage = true;
+                }
+            }
+
+            Elements elements = document.select("td.content").select("img");
+
+            String link = "";
+            if (listing.getTitle().contains("Red Bull")) {
+                link = "http://www.wirewheel.com" + elements.get(5).attr("src");
+            } else {
+                link = "http://www.wirewheel.com" + elements.get(4).attr("src");
+            }
+
+
+            listing.setKeyImageLink(link);
+
+            ListingDatabase.get(mContext).addListing(listing);
+        }
+    }
+
+    public void loadAll() {
+        return;
+    }
+
     public void databaseTest() {
         ArrayList<Document> documents = getDocumentsFromLinks(getLotusLinks());
 
@@ -206,7 +278,7 @@ public class WebScraper {
             }
 
             Elements elements = document.select("td.content").select("img");
-            String url = "http://www.wirewheel.com" + elements.get(3).attr("src");
+            String url = "http://www.wirewheel.com" + elements.get(5).attr("src");
 
             listing.setKeyImageLink(url);
 
