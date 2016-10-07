@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.1.0'
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'org.jsoup:jsoup:1.9.2'
+    compile 'com.android.support:design:24.1.0'
 }

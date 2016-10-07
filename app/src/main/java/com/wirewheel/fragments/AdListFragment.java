@@ -1,6 +1,7 @@
 package com.wirewheel.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
@@ -76,6 +78,8 @@ public class AdListFragment extends Fragment {
         private TextView mPriceView;
         private TextView mMileageView;
 
+        private FloatingActionButton mFloatingActionButton;
+
         private Listing mListing;
 
         public ListingHolder(View itemView) {
@@ -86,6 +90,13 @@ public class AdListFragment extends Fragment {
             mTitleView = (TextView)itemView.findViewById(R.id.list_ad_title);
             mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price_field);
             mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage_field);
+            mFloatingActionButton = (FloatingActionButton)itemView.findViewById(R.id.list_ad_floating_email_button);
+            mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Email Filler", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void bindListing(Listing listing) {

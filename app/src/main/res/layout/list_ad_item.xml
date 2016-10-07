@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="300dp"
     android:layout_width="match_parent"
     android:layout_marginTop="6dp"
@@ -89,5 +90,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/list_ad_floating_email_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="6dp"
+        android:src="@android:drawable/ic_dialog_email"
+        android:scaleType="centerCrop">
+
+    </android.support.design.widget.FloatingActionButton>
 
 </android.support.v7.widget.CardView>
