@@ -39,7 +39,7 @@ public class ListingDatabase {
         mDatabase = new ListingBaseHelper(mContext).getWritableDatabase();
         mWebScraper = new WebScraper(mContext);
 
-        refreshPage("http://www.wirewheel.com/LOTUS.html");
+        // refreshPage("http://www.wirewheel.com/LOTUS.html");
 
         /*
         mListings = new ArrayList<>();
@@ -68,9 +68,9 @@ public class ListingDatabase {
         return values;
     }
 
-    private ListingCursorWrapper queryListings(String whereClause, String[] whereArgs) {
+    private ListingCursorWrapper queryListings(String tableName, String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
-                ListingTable.NAME,
+                tableName,
                 null, // Select all columns
                 whereClause,
                 whereArgs,
@@ -86,26 +86,22 @@ public class ListingDatabase {
      * This method is called when the user pulls to refresh on an AdListFragment
      * @param url The page of links we want to refresh from
      */
-    public void refreshPage(String url) {
-        new RefreshPageTask().execute(url);
+    public void refreshPage(String url, String tableId) {
+        // new RefreshPageTask().execute(new String[] {url, tableId});
+        mWebScraper.openService();
+        mWebScraper.loadPage(url, tableId);
+        mWebScraper.closeService();
     }
 
-    public void addListing(Listing listing) {
+    public synchronized void addListing(Listing listing, String tableId) {
         ContentValues values = getContentValues(listing);
 
-        mDatabase.insertWithOnConflict(ListingTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        mDatabase.insertWithOnConflict(tableId, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    public void update(Listing listing) {
-        String link = listing.getLink();
-        ContentValues values = getContentValues(listing);
-
-        mDatabase.update(ListingTable.NAME, values, ListingTable.Cols.LINK + "= ?",
-                new String[] {link} );
-    }
-
-    public Listing getListing(String link) {
+    public Listing getListing(String link, String id) {
         ListingCursorWrapper cursor = queryListings(
+                id,
                 ListingTable.Cols.LINK + " = ?",
                 new String[] { link });
 
@@ -121,6 +117,65 @@ public class ListingDatabase {
         }
     }
 
+
+    public List<Listing> getListingsFrom(String table) {
+
+        String tableName;
+
+        switch (table) {
+            case ListingTable.NAME_RACECARS:
+                tableName = ListingTable.NAME_RACECARS;
+                break;
+            case ListingTable.NAME_AUSTIN_HEALEY:
+                tableName = ListingTable.NAME_AUSTIN_HEALEY;
+                break;
+            case ListingTable.NAME_JAGUAR:
+                tableName = ListingTable.NAME_JAGUAR;
+                break;
+            case ListingTable.NAME_LOTUS:
+                tableName = ListingTable.NAME_LOTUS;
+                break;
+            case ListingTable.NAME_MARCOS:
+                tableName = ListingTable.NAME_MARCOS;
+                break;
+            case ListingTable.NAME_MINI:
+                tableName = ListingTable.NAME_MINI;
+                break;
+            case ListingTable.NAME_MG:
+                tableName = ListingTable.NAME_MG;
+                break;
+            case ListingTable.NAME_PANOZ:
+                tableName = ListingTable.NAME_PANOZ;
+                break;
+            case ListingTable.NAME_TRIUMPH:
+                tableName = ListingTable.NAME_TRIUMPH;
+                break;
+            case ListingTable.NAME_TVR:
+                tableName = ListingTable.NAME_TVR;
+                break;
+            default:
+                tableName = ListingTable.NAME_LOTUS; // Default to Lotus because we love Lotus <3
+                break;
+        }
+
+        List<Listing> listings = new ArrayList<>();
+
+        ListingCursorWrapper cursor = queryListings(tableName, null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                listings.add(cursor.getListing());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return listings;
+    }
+
+    /*
     public List<Listing> getListings() {
         List<Listing> listings = new ArrayList<>();
 
@@ -138,18 +193,20 @@ public class ListingDatabase {
 
         return listings;
     }
+    */
 
     private class RefreshPageTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
             mWebScraper.openService();
             // mWebScraper.databaseTest();
-            mWebScraper.loadPage(params[0]);
+            mWebScraper.loadPage(params[0], params[1]);
             mWebScraper.closeService();
             return null;
         }
     }
 
+    /*
     private class RefreshAllTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -159,4 +216,5 @@ public class ListingDatabase {
             return null;
         }
     }
+    */
 }

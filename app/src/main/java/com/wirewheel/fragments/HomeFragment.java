@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
                 ft.add(R.id.fragment_container, fragment).commit();
                 */
 
-                Fragment fragment = AdListFragment.newInstance("http://www.wirewheel.com/LOTUS.html");
+                Fragment fragment = AdListFragment.newInstance("http://www.wirewheel.com/LOTUS.html", "Lotus");
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction()
                         .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)

@@ -1,5 +1,6 @@
 package com.wirewheel.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -28,10 +29,12 @@ public class AdListFragment extends Fragment {
 
     private static final String DIALOG_AD_LISTING = "DialogAdListing";
     private static final String ARG_PAGE_LINK = "link";
+    private static final String ARG_PAGE_ID = "id";
 
-    public static AdListFragment newInstance(String link) {
+    public static AdListFragment newInstance(String link, String id) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PAGE_LINK, link);
+        args.putSerializable(ARG_PAGE_ID, id);
 
         AdListFragment adListFragment = new AdListFragment();
         adListFragment.setArguments(args);
@@ -41,6 +44,7 @@ public class AdListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ListingAdapter mListingAdapter;
     private String link;
+    private String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -48,9 +52,14 @@ public class AdListFragment extends Fragment {
 
         if (getArguments() != null) {
             link = (String)getArguments().getSerializable(ARG_PAGE_LINK);
+            id = (String)getArguments().getSerializable(ARG_PAGE_ID);
         } else {
             link = "http://www.wirewheel.com/LOTUS.html";
+            id = "Lotus";
         }
+
+        // ListingDatabase.get(getActivity()).refreshPage(link, id);
+        new RefreshTask().execute();
 
         View v = inflater.inflate(R.layout.fragment_ad_list, container, false);
 
@@ -61,7 +70,7 @@ public class AdListFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshDatabase();
+                new RefreshTask().execute();
                 mSwipeRefreshLayout.setRefreshing(false);
                 updateUI();
             }
@@ -111,18 +120,18 @@ public class AdListFragment extends Fragment {
         public void onClick(View v) {
             // Toast.makeText(getActivity(), mListing.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
             FragmentManager fragmentManager = getFragmentManager();
-            AdDialogFragment adDialogFragment = AdDialogFragment.newInstance(mListing.getLink());
+            AdDialogFragment adDialogFragment = AdDialogFragment.newInstance(mListing.getLink(), id);
             adDialogFragment.show(fragmentManager, DIALOG_AD_LISTING);
         }
     }
 
     private void refreshDatabase() {
-        ListingDatabase.get(getActivity()).refreshPage(link);
+        ListingDatabase.get(getActivity()).refreshPage(link, id);
     }
 
     private void updateUI() {
         ListingDatabase listingDatabase = ListingDatabase.get(getActivity());
-        List<Listing> listings = listingDatabase.getListings();
+        List<Listing> listings = listingDatabase.getListingsFrom(id);
 
         if (mListingAdapter == null) {
             mListingAdapter = new ListingAdapter(listings);
@@ -160,6 +169,19 @@ public class AdListFragment extends Fragment {
 
         public void setListings(List<Listing> listings) {
             mListings = listings;
+        }
+    }
+
+    private class RefreshTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            refreshDatabase();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            updateUI();
         }
     }
 }

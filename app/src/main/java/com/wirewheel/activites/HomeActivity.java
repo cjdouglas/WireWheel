@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.wirewheel.database.ListingDbSchema.ListingTable;
 import com.wirewheel.fragments.AdListFragment;
 import com.wirewheel.fragments.HomeFragment;
 import com.wirewheel.parsing.WebScraper;
@@ -20,7 +21,18 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mListView;
     private ArrayAdapter<String> mListAdapter;
-    private String[] mFragments = {"Lotus", "Jaguar", "TVR"};
+    private String[] mFragments = {
+            "Race Cars",
+            "Austin Healey",
+            "Jaguar",
+            "Lotus",
+            "Marcos",
+            "Mini",
+            "MG",
+            "Panoz",
+            "Triumph",
+            "TVR"
+    };
 
 
     @Override
@@ -40,13 +52,34 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch(position) {
                     case 0:
-                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.LOTUS);
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.RACECARS, ListingTable.NAME_RACECARS);
                         break;
                     case 1:
-                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.JAGUAR);
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.AUSTIN, ListingTable.NAME_AUSTIN_HEALEY);
                         break;
                     case 2:
-                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.TVR);
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.JAGUAR, ListingTable.NAME_JAGUAR);
+                        break;
+                    case 3:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.LOTUS, ListingTable.NAME_LOTUS);
+                        break;
+                    case 4:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.MARCOS, ListingTable.NAME_MARCOS);
+                        break;
+                    case 5:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.MINI, ListingTable.NAME_MINI);
+                        break;
+                    case 6:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.MG, ListingTable.NAME_MG);
+                        break;
+                    case 7:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.PANOZ, ListingTable.NAME_PANOZ);
+                        break;
+                    case 8:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.TRIUMPH, ListingTable.NAME_TRIUMPH);
+                        break;
+                    case 9:
+                        fragment = AdListFragment.newInstance(WebScraper.WebLinks.TVR, ListingTable.NAME_TVR);
                         break;
                     default:
                         fragment = new HomeFragment();

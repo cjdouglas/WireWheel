@@ -32,7 +32,7 @@ public class WebScraper {
         public static final String AUSTIN = "http://www.wirewheel.com/AUSTIN-HEALEY.html";
         public static final String JAGUAR = "http://www.wirewheel.com/JAGUAR.html";
         public static final String LOTUS = "http://www.wirewheel.com/LOTUS.html";
-        public static final String JUNO = "http://www.wirewheel.com/JUNO-Race-Cars.html";
+        // public static final String JUNO = "http://www.wirewheel.com/JUNO-Race-Cars.html";
         public static final String MARCOS = "http://www.wirewheel.com/MARCOS.html";
         public static final String MINI = "http://www.wirewheel.com/MINI-Austin---Morris.html";
         public static final String MG = "http://www.wirewheel.com/MG.html";
@@ -161,7 +161,7 @@ public class WebScraper {
         return documents;
     }
 
-    public void loadPage(String url) {
+    public void loadPage(String url, String tableId) {
         ArrayList<Document> documents = getDocumentsFromLinks(getLinksFromMake(url));
 
         if (documents == null) {
@@ -225,64 +225,7 @@ public class WebScraper {
 
             listing.setKeyImageLink(link);
 
-            ListingDatabase.get(mContext).addListing(listing);
-        }
-    }
-
-    public void loadAll() {
-        return;
-    }
-
-    public void databaseTest() {
-        ArrayList<Document> documents = getDocumentsFromLinks(getLotusLinks());
-
-        if (documents == null) {
-            return;
-        }
-
-        for (Document document : documents) {
-            Listing listing = new Listing();
-
-            listing.setLink(document.location());
-            listing.setTitle(document.title());
-
-            Elements elementsP = document.select("p");
-            Elements elementsLi = document.select("li");
-
-            for (Element element : elementsP) {
-                elementsLi.add(element);
-            }
-
-            // StringBuffer buffer = new StringBuffer();
-
-            boolean mileage = false;
-
-            for (Element element : elementsLi) {
-                String str = element.text();
-
-                if (str.contains("$")) {
-                    int start = str.indexOf("$");
-                    int end = str.indexOf(" ", start);
-
-                    if (end == -1) {
-                        listing.setPrice(str.substring(start));
-                    } else {
-                        listing.setPrice(str.substring(start, end));
-                    }
-                }
-
-                if (str.contains("miles") && !mileage) {
-                    listing.setMileage(str);
-                    mileage = true;
-                }
-            }
-
-            Elements elements = document.select("td.content").select("img");
-            String url = "http://www.wirewheel.com" + elements.get(5).attr("src");
-
-            listing.setKeyImageLink(url);
-
-            ListingDatabase.get(mContext).addListing(listing);
+            ListingDatabase.get(mContext).addListing(listing, tableId);
         }
     }
 
@@ -306,9 +249,11 @@ public class WebScraper {
         return getLinksFromMake(WebLinks.LOTUS);
     }
 
+    /*
     public ArrayList<String> getJunoLinks() {
         return getLinksFromMake(WebLinks.JUNO);
     }
+    */
 
     public ArrayList<String> getMarcosLinks() {
         return getLinksFromMake(WebLinks.MARCOS);

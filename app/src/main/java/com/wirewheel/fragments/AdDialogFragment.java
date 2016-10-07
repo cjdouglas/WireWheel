@@ -28,14 +28,16 @@ import com.wirewheel.wirewheel.R;
 public class AdDialogFragment extends DialogFragment {
 
     private static final String ARG_LISTING_LINK = "link";
+    private static final String ARG_LISTING_TABLE_ID = "id";
 
     private Listing mListing;
     private TextView descriptionView;
     private ViewPager mViewPager;
 
-    public static AdDialogFragment newInstance(String link) {
+    public static AdDialogFragment newInstance(String link, String id) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_LISTING_LINK, link);
+        args.putSerializable(ARG_LISTING_TABLE_ID, id);
 
         AdDialogFragment fragment = new AdDialogFragment();
         fragment.setArguments(args);
@@ -45,8 +47,9 @@ public class AdDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String link = (String)getArguments().getSerializable(ARG_LISTING_LINK);
+        String id = (String)getArguments().getSerializable(ARG_LISTING_TABLE_ID);
 
-        mListing = ListingDatabase.get(getActivity()).getListing(link);
+        mListing = ListingDatabase.get(getActivity()).getListing(link, id);
 
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_ad, null);
