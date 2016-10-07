@@ -215,13 +215,16 @@ public class WebScraper {
 
             Elements elements = document.select("td.content").select("img");
 
+            /*
             String link = "";
             if (listing.getTitle().contains("Red Bull")) {
                 link = "http://www.wirewheel.com" + elements.get(5).attr("src");
             } else {
                 link = "http://www.wirewheel.com" + elements.get(4).attr("src");
             }
+            */
 
+            String link = "http://www.wirewheel.com" + elements.get(3).attr("src");
 
             listing.setKeyImageLink(link);
 

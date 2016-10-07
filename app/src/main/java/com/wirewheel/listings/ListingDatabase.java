@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 
 import com.wirewheel.database.ListingBaseHelper;
 import com.wirewheel.database.ListingCursorWrapper;
@@ -22,7 +21,6 @@ public class ListingDatabase {
 
     private static ListingDatabase sListingDatabase;
 
-    // private List<Listing> mListings;
     private Context mContext;
     private SQLiteDatabase mDatabase;
     private WebScraper mWebScraper;
@@ -38,22 +36,6 @@ public class ListingDatabase {
         mContext = context.getApplicationContext();
         mDatabase = new ListingBaseHelper(mContext).getWritableDatabase();
         mWebScraper = new WebScraper(mContext);
-
-        // refreshPage("http://www.wirewheel.com/LOTUS.html");
-
-        /*
-        mListings = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Listing listing = new Listing();
-            listing.setTitle("2007 Lotus Exige # " + i + " For Sale");
-            listing.setPrice("$" + i * 10000);
-            listing.setMileage("" + i * 1234 + "\nmiles");
-            // listing.setPhotoResource(R.drawable.testphoto);
-            listing.setKeyImageLink("http://www.wirewheel.com/gallery/177078/2005_Lotus_Elise_Graphite.jpg");
-
-            mListings.add(listing);
-        }
-        */
     }
 
     private static ContentValues getContentValues(Listing listing) {
@@ -87,7 +69,6 @@ public class ListingDatabase {
      * @param url The page of links we want to refresh from
      */
     public void refreshPage(String url, String tableId) {
-        // new RefreshPageTask().execute(new String[] {url, tableId});
         mWebScraper.openService();
         mWebScraper.loadPage(url, tableId);
         mWebScraper.closeService();
@@ -174,47 +155,4 @@ public class ListingDatabase {
 
         return listings;
     }
-
-    /*
-    public List<Listing> getListings() {
-        List<Listing> listings = new ArrayList<>();
-
-        ListingCursorWrapper cursor = queryListings(null, null);
-
-        try {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                listings.add(cursor.getListing());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return listings;
-    }
-    */
-
-    private class RefreshPageTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... params) {
-            mWebScraper.openService();
-            // mWebScraper.databaseTest();
-            mWebScraper.loadPage(params[0], params[1]);
-            mWebScraper.closeService();
-            return null;
-        }
-    }
-
-    /*
-    private class RefreshAllTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            mWebScraper.openService();
-            mWebScraper.loadAll();
-            mWebScraper.closeService();
-            return null;
-        }
-    }
-    */
 }

@@ -1,5 +1,7 @@
 package com.wirewheel.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public class AdListFragment extends Fragment {
 
+    private static final String EXTRA_ADDRESS = "Hayes@wirewheel.com";
     private static final String DIALOG_AD_LISTING = "DialogAdListing";
     private static final String ARG_PAGE_LINK = "link";
     private static final String ARG_PAGE_ID = "id";
@@ -71,7 +73,6 @@ public class AdListFragment extends Fragment {
             @Override
             public void onRefresh() {
                 new RefreshTask().execute();
-                mSwipeRefreshLayout.setRefreshing(false);
                 updateUI();
             }
         });
@@ -103,7 +104,14 @@ public class AdListFragment extends Fragment {
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Email Filler", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "Email Filler", Toast.LENGTH_SHORT).show();
+                    String subject = "Interested in your " + mListing.getTitle();
+
+                    Intent emailIntent = new Intent(
+                            Intent.ACTION_SENDTO, Uri.fromParts("mailto", EXTRA_ADDRESS, null)
+                    );
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                    startActivity(Intent.createChooser(emailIntent, "Send email..."));
                 }
             });
         }
@@ -181,6 +189,7 @@ public class AdListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSwipeRefreshLayout.setRefreshing(false);
             updateUI();
         }
     }
