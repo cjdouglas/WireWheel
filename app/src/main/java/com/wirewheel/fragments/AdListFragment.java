@@ -111,7 +111,7 @@ public class AdListFragment extends Fragment {
                             Intent.ACTION_SENDTO, Uri.fromParts("mailto", EXTRA_ADDRESS, null)
                     );
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-                    startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                    startActivity(Intent.createChooser(emailIntent, "I'm Interested!"));
                 }
             });
         }

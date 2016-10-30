@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Chris on 9/22/2016.
@@ -197,18 +199,27 @@ public class WebScraper {
                 String str = element.text();
 
                 if (str.contains("$")) {
-                    int start = str.indexOf("$");
-                    int end = str.indexOf(" ", start);
+                    String regex = "\\$\\d{1,3},\\d+";
+                    Matcher matcher = Pattern.compile(regex).matcher(str);
 
-                    if (end == -1) {
-                        listing.setPrice(str.substring(start));
+                    if (matcher.find()) {
+                        listing.setPrice(matcher.group());
                     } else {
-                        listing.setPrice(str.substring(start, end));
+                        listing.setPrice("Unlisted Price");
                     }
                 }
 
                 if (str.contains("miles") && !mileage) {
-                    listing.setMileage(str);
+                    // listing.setMileage(str);
+                    String regex = "\\d{1,3},\\d+";
+                    Matcher matcher = Pattern.compile(regex).matcher(str);
+
+                    if (matcher.find()) {
+                        listing.setMileage(matcher.group() + " miles");
+                    } else {
+                        listing.setMileage("Unlisted Mileage");
+                    }
+
                     mileage = true;
                 }
             }
