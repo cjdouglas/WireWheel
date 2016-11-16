@@ -13,7 +13,7 @@ public class Listing {
     private String mileage;
     private ArrayList<String> text;
     private String keyImageLink;
-    private ArrayList<String> imageLinks;
+    private String imageLinks;
 
     public Listing() {
         link = "";
@@ -22,7 +22,7 @@ public class Listing {
         mileage = "Unlisted Mileage";
         text = new ArrayList<>();
         keyImageLink = "";
-        imageLinks = new ArrayList<>();
+        imageLinks = "";
     }
 
     public String getLink() {
@@ -73,17 +73,19 @@ public class Listing {
         this.keyImageLink = keyImageLink;
     }
 
-    public ArrayList<String> getImageLinks() {
+    public String getImageLinks() {
         return imageLinks;
     }
 
-    public void setImageLinks(ArrayList<String> imageLinks) {
+    public void setImageString(String imageLinks) {
         this.imageLinks = imageLinks;
     }
 
+    /*
     public void addImage(String link) {
         imageLinks.add(link);
     }
+    */
 
     public void addTextLine(String line) {
         text.add(line);

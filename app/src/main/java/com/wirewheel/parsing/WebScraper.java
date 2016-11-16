@@ -180,7 +180,6 @@ public class WebScraper {
             String title = listing.getTitle();
             if (title.contains("for sale")) {
                 String substring = title.substring(0, title.indexOf("for") - 1);
-                // listing.setTitle(title.substring(0, title.indexOf("for sale")));
                 listing.setTitle(substring);
             }
 
