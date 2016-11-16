@@ -25,9 +25,23 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Chris on 9/22/2016.
+ *
+ * This class handles all of the information parsing for the application.
+ * The WebScraper utilizes Java's concurrency package to execute multiple
+ * HTTP requests concurrently, in order to provide minimum loading time
+ * while maintaining a good UX.
+ *
+ * Listings are created by information that is parsed by each Thread
+ * using Jsoup to parse the HTML data and the Listings are pushed
+ * to the database into their appropriate table, where they are
+ * either added or replace the previous version of itself.
  */
 public class WebScraper {
 
+    /**
+     * Class to provide easy access to links
+     * that are accessed often
+     */
     public static class WebLinks {
         public static final String HOMEPAGE = "http://www.wirewheel.com/";
         public static final String RACECARS = "http://www.wirewheel.com/RACING-CARS.html";
@@ -47,17 +61,43 @@ public class WebScraper {
     private static final int MAX_THREADS = 5;
 
     private ArrayList<String> ignoreLinks;
-
     private Context mContext;
     private ExecutorService service;
 
+    /**
+     * Constructor for the WebScraper
+     * @param context The Context this WebScraper will be used in (used to query the main database)
+     */
     public WebScraper(Context context) {
         ignoreLinks = new ArrayList<>();
         mContext = context;
-        // service = Executors.newFixedThreadPool(MAX_THREADS);
         init();
     }
 
+    /**
+     * Initializes the ignoreLinks list, adds links that should
+     * be ignored when the WebScraper is looking for links
+     */
+    private void init() {
+        ignoreLinks.add(WebLinks.HOMEPAGE + "Sell-Us-Your-Car-WireWheel-com.html");
+        ignoreLinks.add(WebLinks.HOMEPAGE + "CONTACT---DIRECTIONS.html");
+        ignoreLinks.add(WebLinks.HOMEPAGE + "PARTS-AND-ENGINES-FOR-SALE.html");
+    }
+
+    /**
+     * Opens the Executor Service to allow the application
+     * to make HTTP requests concurrently
+     */
+    public void openService() {
+        service = Executors.newFixedThreadPool(MAX_THREADS);
+    }
+
+    /**
+     * Closes the Executor Service
+     *
+     * Times out after 5 seconds and force closes
+     * all threads if it comes to that point
+     */
     public void closeService() {
         try {
             service.shutdown();
@@ -68,20 +108,23 @@ public class WebScraper {
         }
     }
 
-    public void openService() {
-        service = Executors.newFixedThreadPool(MAX_THREADS);
-    }
-
-    private void init() {
-        ignoreLinks.add(WebLinks.HOMEPAGE + "Sell-Us-Your-Car-WireWheel-com.html");
-        ignoreLinks.add(WebLinks.HOMEPAGE + "CONTACT---DIRECTIONS.html");
-        ignoreLinks.add(WebLinks.HOMEPAGE + "PARTS-AND-ENGINES-FOR-SALE.html");
-    }
-
+    /**
+     * Returns the document associated with the given URL
+     * @param url The URL to retrieve the document from
+     * @return The document associated with the given URL, null if the URL does not exist
+     * @throws IOException When the given URL does not exist
+     */
     public Document get(String url) throws IOException {
         return Jsoup.connect(url).userAgent("Chrome").get();
     }
 
+    /**
+     * Returns an ArrayList of links associated with a certain make of cars
+     * Ex: Scanning the WebLinks.LOTUS page will return a list of links
+     * representing each listing under the Lotus make.
+     * @param url The URL to parse links from
+     * @return A list of links associated with the given make of cars
+     */
     public ArrayList<String> getLinksFromMake(String url) {
         try {
             Document document = get(url);
