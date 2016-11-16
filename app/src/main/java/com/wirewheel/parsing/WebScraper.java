@@ -165,14 +165,12 @@ public class WebScraper {
 
     public void loadPage(String url, String tableId) {
         ArrayList<Document> documents = getDocumentsFromLinks(getLinksFromMake(url));
-
         if (documents == null) {
             return;
         }
 
         for (Document document : documents) {
             Listing listing = new Listing();
-
             listing.setLink(document.location());
             listing.setTitle(document.title());
 
@@ -185,7 +183,6 @@ public class WebScraper {
 
             Elements elementsP = document.select("p");
             Elements elementsLi = document.select("li");
-
             for (Element element : elementsP) {
                 elementsLi.add(element);
             }
@@ -193,7 +190,6 @@ public class WebScraper {
             // StringBuffer buffer = new StringBuffer();
 
             boolean mileage = false;
-
             for (Element element : elementsLi) {
                 String str = element.text();
 
@@ -223,8 +219,6 @@ public class WebScraper {
                 }
             }
 
-            Elements elements = document.select("td.content").select("img");
-
             /*
             String link = "";
             if (listing.getTitle().contains("Red Bull")) {
@@ -234,9 +228,19 @@ public class WebScraper {
             }
             */
 
-            String link = "http://www.wirewheel.com" + elements.get(3).attr("src");
-
+            Elements elements = document.select("td.content").select("img");
+            String link = WebLinks.HOMEPAGE + elements.get(3).attr("src").substring(1);
             listing.setKeyImageLink(link);
+
+            StringBuffer buffer = new StringBuffer();
+            for (int i = 3; i < elements.size(); i++) {
+                buffer.append(WebLinks.HOMEPAGE + elements.get(i).attr("src").substring(1));
+
+                if (i + 1 != elements.size()) {
+                    buffer.append("|");
+                }
+            }
+            listing.setImageString(buffer.toString());
 
             ListingDatabase.get(mContext).addListing(listing, tableId);
         }
