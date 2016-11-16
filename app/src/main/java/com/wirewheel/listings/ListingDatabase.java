@@ -46,6 +46,7 @@ public class ListingDatabase {
         values.put(ListingTable.Cols.MILEAGE, listing.getMileage());
         // values.put(ListingTable.Cols.TEXT, listing.getText());
         values.put(ListingTable.Cols.KEY_IMG_LINK, listing.getKeyImageLink());
+        values.put(ListingTable.Cols.IMAGES, listing.getImageLinks());
 
         return values;
     }
@@ -140,9 +141,7 @@ public class ListingDatabase {
         }
 
         List<Listing> listings = new ArrayList<>();
-
         ListingCursorWrapper cursor = queryListings(tableName, null, null);
-
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
