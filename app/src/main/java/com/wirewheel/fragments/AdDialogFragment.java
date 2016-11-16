@@ -72,7 +72,6 @@ public class AdDialogFragment extends DialogFragment {
         ImageAdapter imageAdapter = new ImageAdapter();
         mViewPager.setAdapter(imageAdapter);
 
-
         // Build alertDialog
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog)
@@ -98,8 +97,6 @@ public class AdDialogFragment extends DialogFragment {
         return alertDialog;
 
         // 09/17/2016: It's 1:31 AM and you have to get up at 6:30 for practice tomorrow...
-        // but when you're having fun creating an app and you have good music playing
-        // how can you possibly get yourself to stop?
     }
 
     private class ImageAdapter extends PagerAdapter {
@@ -114,7 +111,8 @@ public class AdDialogFragment extends DialogFragment {
                 "http://www.wirewheel.com/gallery/177587/2006_Lotus_Elise.jpg",
                 "http://www.wirewheel.com/gallery/177628/2006_Lotus_Elise.jpg" };
         */
-        private String[] mImages = { mListing.getKeyImageLink() };
+
+        private String[] mImages = mListing.getImageLinks().split("[|]");
 
         @Override
         public int getCount() {
