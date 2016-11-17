@@ -248,7 +248,6 @@ public class WebScraper {
                 }
 
                 if (str.contains("miles") && !mileage) {
-                    // listing.setMileage(str);
                     String regex = "\\d{1,3},\\d+";
                     Matcher matcher = Pattern.compile(regex).matcher(str);
 
@@ -257,19 +256,9 @@ public class WebScraper {
                     } else {
                         listing.setMileage("Unlisted Mileage");
                     }
-
                     mileage = true;
                 }
             }
-
-            /*
-            String link = "";
-            if (listing.getTitle().contains("Red Bull")) {
-                link = "http://www.wirewheel.com" + elements.get(5).attr("src");
-            } else {
-                link = "http://www.wirewheel.com" + elements.get(4).attr("src");
-            }
-            */
 
             Elements elements = document.select("td.content").select("img");
             String link = WebLinks.HOMEPAGE + elements.get(3).attr("src").substring(1);

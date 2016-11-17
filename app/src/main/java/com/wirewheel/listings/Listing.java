@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Chris on 9/15/2016.
+ *
+ * This class holds the data associated with a given listing
  */
 public class Listing {
 
@@ -15,6 +17,11 @@ public class Listing {
     private String keyImageLink;
     private String imageLinks;
 
+    /**
+     * No-args Constructor for a Listing
+     *
+     * Initializes values to their default
+     */
     public Listing() {
         link = "";
         title = "";
@@ -25,10 +32,18 @@ public class Listing {
         imageLinks = "";
     }
 
+    /**
+     * Returns the link associated with this listing
+     * @return The link associated with this listing
+     */
     public String getLink() {
         return link;
     }
 
+    /**
+     * Sets the link of this listing
+     * @param link The link to associate with this listing
+     */
     public void setLink(String link) {
         this.link = link;
     }
