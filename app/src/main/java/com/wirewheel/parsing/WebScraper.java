@@ -230,7 +230,8 @@ public class WebScraper {
                 elementsLi.add(element);
             }
 
-            // StringBuffer buffer = new StringBuffer();
+            StringBuffer text = new StringBuffer();
+            text.append("Testing String for text");
 
             boolean mileage = false;
             for (Element element : elementsLi) {
@@ -273,10 +274,14 @@ public class WebScraper {
                 }
             }
             listing.setImageString(buffer.toString());
+            listing.setText(text.toString());
 
             ListingDatabase.get(mContext).addListing(listing, tableId);
         }
     }
+
+
+    // Not sure if I need any of the following methods but I'll keep them regardless
 
     public ArrayList<Listing> getListingsFromUrl(String url) {
         return null;

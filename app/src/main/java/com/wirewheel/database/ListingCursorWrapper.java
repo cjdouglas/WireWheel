@@ -20,6 +20,7 @@ public class ListingCursorWrapper extends CursorWrapper {
         String titleString = getString(getColumnIndex(ListingTable.Cols.TITLE));
         String priceString = getString(getColumnIndex(ListingTable.Cols.PRICE));
         String mileageString = getString(getColumnIndex(ListingTable.Cols.MILEAGE));
+        String textString = getString(getColumnIndex(ListingTable.Cols.TEXT));
         String keyImageLink = getString(getColumnIndex(ListingTable.Cols.KEY_IMG_LINK));
         String images = getString(getColumnIndex(ListingTable.Cols.IMAGES));
 
@@ -28,6 +29,7 @@ public class ListingCursorWrapper extends CursorWrapper {
         listing.setTitle(titleString);
         listing.setPrice(priceString);
         listing.setMileage(mileageString);
+        listing.setText(textString);
         listing.setKeyImageLink(keyImageLink);
         listing.setImageString(images);
 

@@ -54,19 +54,12 @@ public class AdDialogFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_ad, null);
 
+
+        // Append text here
+
         descriptionView = (TextView) view.findViewById(R.id.ad_description_view);
         descriptionView.setMovementMethod(new ScrollingMovementMethod());
-        descriptionView.append(mListing.getTitle());
-        descriptionView.append("\n");
-        descriptionView.append(mListing.getPrice());
-
-        /*
-        String[] strings = getResources().getStringArray(R.array.test);
-        for (String str : strings) {
-            descriptionView.append(str);
-            descriptionView.append("\n\n");
-        }
-        */
+        descriptionView.append(mListing.getText());
 
         mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
         ImageAdapter imageAdapter = new ImageAdapter();
@@ -76,7 +69,7 @@ public class AdDialogFragment extends DialogFragment {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog)
                 .setView(view)
-                .setTitle("2007 Lotus Exige S")
+                .setTitle(mListing.getTitle())
                 .setNegativeButton(R.string.dialog_close, null).create();
         alertDialog.show(); // We need to show this first in order for the below params to work
 
@@ -100,18 +93,6 @@ public class AdDialogFragment extends DialogFragment {
     }
 
     private class ImageAdapter extends PagerAdapter {
-
-        // private int[] mImages = {R.drawable.testphoto, R.drawable.testphoto2, R.drawable.testphoto3};
-        /*
-        private String[] mImages = {
-                "http://www.wirewheel.com/gallery/177579/2006_Lotus_Elise.jpg",
-                "http://www.wirewheel.com/gallery/177577/2006_Lotus_Elise.jpg",
-                "http://www.wirewheel.com/gallery/177578/2006_Lotus_Elise.jpg",
-                "http://www.wirewheel.com/gallery/177580/2006_Lotus_Elise.jpg",
-                "http://www.wirewheel.com/gallery/177587/2006_Lotus_Elise.jpg",
-                "http://www.wirewheel.com/gallery/177628/2006_Lotus_Elise.jpg" };
-        */
-
         private String[] mImages = mListing.getImageLinks().split("[|]");
 
         @Override
@@ -121,12 +102,11 @@ public class AdDialogFragment extends DialogFragment {
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((ImageView) object);
+            return view == ((ImageView)object);
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-
             Context context = getActivity();
             ImageView imageView = new ImageView(context);
             Ion.with(imageView).fitCenter().load(mImages[position]);

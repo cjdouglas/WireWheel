@@ -44,7 +44,7 @@ public class ListingDatabase {
         values.put(ListingTable.Cols.TITLE, listing.getTitle());
         values.put(ListingTable.Cols.PRICE, listing.getPrice());
         values.put(ListingTable.Cols.MILEAGE, listing.getMileage());
-        // values.put(ListingTable.Cols.TEXT, listing.getText());
+        values.put(ListingTable.Cols.TEXT, listing.getText());
         values.put(ListingTable.Cols.KEY_IMG_LINK, listing.getKeyImageLink());
         values.put(ListingTable.Cols.IMAGES, listing.getImageLinks());
 
