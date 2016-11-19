@@ -1,7 +1,5 @@
 package com.wirewheel.listings;
 
-import java.util.ArrayList;
-
 /**
  * Created by Chris on 9/15/2016.
  *
@@ -13,7 +11,7 @@ public class Listing {
     private String title;
     private String price;
     private String mileage;
-    private ArrayList<String> text;
+    private String text;
     private String keyImageLink;
     private String imageLinks;
 
@@ -27,7 +25,7 @@ public class Listing {
         title = "";
         price = "Unlisted Price";
         mileage = "Unlisted Mileage";
-        text = new ArrayList<>();
+        text = "";
         keyImageLink = "";
         imageLinks = "";
     }
@@ -100,7 +98,7 @@ public class Listing {
      * Returns the text of the listing
      * @return The text of this listing
      */
-    public ArrayList<String> getText() {
+    public String getText() {
         return text;
     }
 
@@ -108,7 +106,7 @@ public class Listing {
      * Sets the text of this listing
      * @param text The text to set
      */
-    public void setText(ArrayList<String> text) {
+    public void setText(String text) {
         this.text = text;
     }
 
