@@ -33,6 +33,12 @@ public class AdListFragment extends Fragment {
     private static final String ARG_PAGE_LINK = "link";
     private static final String ARG_PAGE_ID = "id";
 
+    /**
+     * Creates a new instance of an AdListFragment
+     * @param link the link to the listing it is displaying
+     * @param id the id of the SQL table which the listing is associated with
+     * @return a new instance of an AdListFragment with the given arguments attached
+     */
     public static AdListFragment newInstance(String link, String id) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PAGE_LINK, link);
@@ -180,13 +186,25 @@ public class AdListFragment extends Fragment {
         }
     }
 
+    /**
+     * Async task associated with refreshing the RecyclerView after it is updated
+     */
     private class RefreshTask extends AsyncTask<Void, Void, Void> {
+
+        /**
+         * Method to refresh the database
+         * @param params Void
+         * @return Void
+         */
         @Override
         protected Void doInBackground(Void... params) {
             refreshDatabase();
             return null;
         }
 
+        /**
+         * Cancels the refresh animation on the refresh View and updates the UI
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
             mSwipeRefreshLayout.setRefreshing(false);

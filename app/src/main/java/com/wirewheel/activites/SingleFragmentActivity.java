@@ -13,13 +13,25 @@ import com.wirewheel.wirewheel.R;
  */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
+    /**
+     * Creates a new instance of this fragment and returns it
+     * @return the new created instance of this fragment
+     */
     protected abstract Fragment createFragment();
 
+    /**
+     * Returns the resId associated with the fragment's layout
+     * @return
+     */
     @LayoutRes
     protected int getLayoutResId() {
         return R.layout.activity_fragment;
     }
 
+    /**
+     * Creates a fragment and commits it to the FragmentManager
+     * @param savedInstance the saved instance state which this fragment should resurrect
+     */
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);

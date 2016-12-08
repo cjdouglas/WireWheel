@@ -9,6 +9,10 @@ import com.wirewheel.fragments.AdListFragment;
  */
 public class AdListActivity extends SingleFragmentActivity {
 
+    /**
+     * Creates a new instance of this fragment and returns it
+     * @return the new created instance of this fragment
+     */
     @Override
     protected Fragment createFragment() {
         return new AdListFragment();
