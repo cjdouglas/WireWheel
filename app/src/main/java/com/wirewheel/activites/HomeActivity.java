@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,11 +18,17 @@ import com.wirewheel.fragments.HomeFragment;
 import com.wirewheel.parsing.WebScraper;
 import com.wirewheel.wirewheel.R;
 
+/**
+ * Huge thanks to [ http://codetheory.in/android-navigation-drawer/ ] for help with the hamburger icon!!!
+ */
+
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mListView;
     private ArrayAdapter<String> mListAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+
     private String[] mFragments = {
             "Race Cars",
             "Austin Healey",
@@ -44,6 +52,21 @@ public class HomeActivity extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.drawer_list_view);
         mListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mFragments);
         mListView.setAdapter(mListAdapter);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,4 +119,18 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
