@@ -47,11 +47,13 @@ public class AdFragment extends Fragment {
         descriptionView = (TextView)v.findViewById(R.id.ad_description_view);
         descriptionView.setMovementMethod(new ScrollingMovementMethod());
 
+        /*
         String[] strings = getResources().getStringArray(R.array.test);
         for (String str : strings) {
             descriptionView.append(str);
             descriptionView.append("\n\n");
         }
+        */
 
         mViewPager = (ViewPager)v.findViewById(R.id.view_pager);
         ImageAdapter imageAdapter = new ImageAdapter();
