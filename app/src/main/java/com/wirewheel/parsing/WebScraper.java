@@ -59,6 +59,7 @@ public class WebScraper {
     }
 
     private static final int MAX_THREADS = 5;
+    private static final String END_STRING = "NEW ARRIVALS / INVENTORY";
 
     private ArrayList<String> ignoreLinks;
     private Context mContext;
@@ -132,12 +133,17 @@ public class WebScraper {
             return parseLinksFromElements(elements);
         } catch  (IOException e) {
             Log.e("WebScraper", "Error connecting to url...");
-            // Toast.makeText(mContext, "Connection Error!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Connection Error!", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-    public ArrayList<String> parseLinksFromElements(Elements elements) {
+    /**
+     * Returns an ArrayList of links from the given Elements provided to it
+     * @param elements the elements to parse the links from
+     * @return an ArrayList containing all valid links in the given Elements
+     */
+    private ArrayList<String> parseLinksFromElements(Elements elements) {
         ArrayList<String> links = new ArrayList<>();
 
         Element tempElement;
@@ -149,6 +155,7 @@ public class WebScraper {
             if (link.charAt(0) == '/') {
                 link = WebLinks.HOMEPAGE + link.substring(1); //www.wirewheel.com/" + extension
 
+                // Check that the link is not supposed to be ignored
                 if (!links.contains(link) && !ignoreLinks.contains(link)) {
                     links.add(link);
                 }
@@ -158,6 +165,11 @@ public class WebScraper {
         return links;
     }
 
+    /**
+     * Connects to [...]
+     * @param urls
+     * @return
+     */
     public ArrayList<Document> getDocumentsFromLinks(ArrayList<String> urls) {
 
         if (urls == null) {
@@ -224,6 +236,9 @@ public class WebScraper {
                 listing.setTitle(substring);
             }
 
+            // Some listings have <li> elements as their text
+            // Others have <p> elements as their text
+            // We will combine them together to be safe
             Elements elementsP = document.select("p");
             Elements elementsLi = document.select("li");
             for (Element element : elementsP) {
@@ -231,11 +246,21 @@ public class WebScraper {
             }
 
             StringBuffer text = new StringBuffer();
-            text.append("Testing String for text");
 
             boolean mileage = false;
             for (Element element : elementsLi) {
                 String str = element.text();
+
+                if (str.length() == 0) {
+                    continue; // Ignore empty text
+                }
+
+                if (str.equals(END_STRING)) {
+                    break; // Exit when we reach the end of the listing's text
+                }
+
+                text.append(str);
+                text.append("\n\n");
 
                 if (str.contains("$")) {
                     String regex = "\\$\\d{1,3},\\d+";
@@ -273,6 +298,7 @@ public class WebScraper {
                     buffer.append("|");
                 }
             }
+
             listing.setImageString(buffer.toString());
             listing.setText(text.toString());
 
@@ -282,7 +308,7 @@ public class WebScraper {
 
 
     // Not sure if I need any of the following methods but I'll keep them regardless
-
+    /*
     public ArrayList<Listing> getListingsFromUrl(String url) {
         return null;
     }
@@ -303,11 +329,10 @@ public class WebScraper {
         return getLinksFromMake(WebLinks.LOTUS);
     }
 
-    /*
+
     public ArrayList<String> getJunoLinks() {
         return getLinksFromMake(WebLinks.JUNO);
     }
-    */
 
     public ArrayList<String> getMarcosLinks() {
         return getLinksFromMake(WebLinks.MARCOS);
@@ -336,4 +361,5 @@ public class WebScraper {
     public ArrayList<String> getOtherLinks() {
         return getLinksFromMake(WebLinks.OTHERS);
     }
+    */
 }
