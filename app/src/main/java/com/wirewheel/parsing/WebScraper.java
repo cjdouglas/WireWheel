@@ -268,8 +268,6 @@ public class WebScraper {
 
                     if (matcher.find()) {
                         listing.setPrice(matcher.group());
-                    } else {
-                        listing.setPrice("Unlisted Price");
                     }
                 }
 
@@ -283,6 +281,10 @@ public class WebScraper {
                         listing.setMileage("Unlisted Mileage");
                     }
                     mileage = true;
+                }
+
+                if (str.equals("SOLD")) {
+                    listing.setPrice("SOLD");
                 }
             }
 

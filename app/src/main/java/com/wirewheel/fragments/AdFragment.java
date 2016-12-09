@@ -1,3 +1,7 @@
+/**
+ * Outdated class: Using AdDialogFragment
+ */
+
 package com.wirewheel.fragments;
 
 import android.os.Bundle;
@@ -69,7 +73,6 @@ public class AdFragment extends Fragment {
 
     private class ImageAdapter extends PagerAdapter {
 
-        // private int[] mImages = {R.drawable.testphoto, R.drawable.testphoto2, R.drawable.testphoto3};
         private String[] mImages = {
                 "http://www.wirewheel.com/gallery/177579/2006_Lotus_Elise.jpg",
                 "http://www.wirewheel.com/gallery/177577/2006_Lotus_Elise.jpg",
