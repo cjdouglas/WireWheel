@@ -76,7 +76,7 @@ public class AdDialogFragment extends DialogFragment {
         // Change button text color to black
 
         final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        negativeButton.setBackgroundColor(Color.argb(255, 0, 100, 45));
+        // negativeButton.setBackgroundColor(Color.argb(255, 0, 100, 45));
         negativeButton.setTextColor(Color.BLACK);
 
         // Change size of the alert dialog to ~90% of the window

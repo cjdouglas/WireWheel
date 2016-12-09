@@ -9,7 +9,7 @@
     </style>
 
     <style name="CustomDialog" parent = "Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorAccent</item>
     </style>
 
     <style name="CustomDialogNoParent">
