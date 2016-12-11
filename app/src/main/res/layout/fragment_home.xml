@@ -11,39 +11,48 @@
         android:layout_margin="8dp"
         android:src="@drawable/testphoto"/>
 
-    <LinearLayout
+    <android.support.v7.widget.ButtonBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1.0">
 
         <Button
+            android:id="@+id/home_call_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/call_hint"
-            android:textAlignment="center"
-            android:drawableLeft="@android:drawable/ic_menu_call"/>
+            android:gravity="center"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:drawableStart="@android:drawable/ic_menu_call"/>
 
         <Button
+            android:id="@+id/home_email_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/email_hint"
-            android:textAlignment="center"
-            android:drawableRight="@android:drawable/ic_dialog_email"/>
+            android:gravity="center"
+            android:drawableRight="@android:drawable/ic_dialog_email"
+            android:drawableEnd="@android:drawable/ic_dialog_email"/>
 
-    </LinearLayout>
+    </android.support.v7.widget.ButtonBarLayout>
 
     <Button
+        android:id="@+id/home_address_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="@dimen/description_text_size"
         android:text="@string/address"
         android:textAllCaps="false"/>
@@ -52,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="@dimen/description_text_size"
         android:text="@string/catch_phrase"/>
