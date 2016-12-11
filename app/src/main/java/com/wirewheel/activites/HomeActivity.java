@@ -67,6 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        commitFragment(new HomeFragment());
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,12 +109,7 @@ public class HomeActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                 }
 
-                FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                        .replace(R.id.drawer_relative_layout, fragment)
-                        .commit();
-
+                commitFragment(fragment);
                 mDrawerLayout.closeDrawers();
             }
         });
@@ -132,5 +128,17 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Updates the current fragment displaying in the Activity
+     * @param fragment the fragment to commit to the Activity
+     */
+    protected void commitFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.drawer_relative_layout, fragment)
+                .commit();
     }
 }
