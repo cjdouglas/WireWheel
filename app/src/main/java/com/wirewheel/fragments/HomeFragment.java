@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.wirewheel.wirewheel.R;
 
@@ -16,20 +16,17 @@ import com.wirewheel.wirewheel.R;
  */
 public class HomeFragment extends Fragment {
 
-    // private static final String LAT = "27.5855124";
-    // private static final String LONG = "-80.4268963";
-
-    private Button mCallButton;
-    private Button mEmailButton;
-    private Button mAddressButton;
+    private ImageButton mCallButton;
+    private ImageButton mEmailButton;
+    private ImageButton mAddressButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mCallButton = (Button)v.findViewById(R.id.home_call_button);
-        mEmailButton = (Button)v.findViewById(R.id.home_email_button);
-        mAddressButton = (Button)v.findViewById(R.id.home_address_button);
+        mCallButton = (ImageButton)v.findViewById(R.id.home_call_button);
+        mEmailButton = (ImageButton)v.findViewById(R.id.home_email_button);
+        mAddressButton = (ImageButton)v.findViewById(R.id.home_address_button);
 
         mCallButton.setOnClickListener(new View.OnClickListener() {
             //TODO: Add permissions for call intent
@@ -53,7 +50,6 @@ public class HomeFragment extends Fragment {
         });
 
         mAddressButton.setOnClickListener(new View.OnClickListener() {
-            //TODO: Add better functionality to maps intent
             @Override
             public void onClick(View v) {
                 Uri intentUri = Uri.parse("geo:0,0?q=" + getString(R.string.address));
