@@ -236,6 +236,10 @@ public class WebScraper {
                 listing.setTitle(substring);
             }
 
+            if (title.contains("SOLD")) {
+                listing.setPrice("SOLD");
+            }
+
             // Some listings have <li> elements as their text
             // Others have <p> elements as their text
             // We will combine them together to be safe
@@ -262,7 +266,7 @@ public class WebScraper {
                 text.append(str);
                 text.append("\n\n");
 
-                if (str.contains("$")) {
+                if (str.contains("$") && !listing.getPrice().equals("SOLD")) {
                     String regex = "\\$\\d{1,3},\\d+";
                     Matcher matcher = Pattern.compile(regex).matcher(str);
 
@@ -281,10 +285,6 @@ public class WebScraper {
                         listing.setMileage("Unlisted Mileage");
                     }
                     mileage = true;
-                }
-
-                if (str.equals("SOLD")) {
-                    listing.setPrice("SOLD");
                 }
             }
 
