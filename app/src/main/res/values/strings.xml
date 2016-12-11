@@ -3,4 +3,10 @@
     <string name="dialog_close">Close</string>
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
+    <string name="email">Hayes@wirewheel.com</string>
+    <string name="phone">772-299-9788</string>
+    <string name="call_hint">Call Us!</string>
+    <string name="email_hint">Email Us!</string>
+    <string name="address">995 36th Court SW\n Vero Beach, FL, 32968</string>
+    <string name="catch_phrase">...life is too short to drive boring cars!</string>
 </resources>
