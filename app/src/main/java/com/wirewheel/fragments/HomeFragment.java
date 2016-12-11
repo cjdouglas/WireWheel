@@ -16,8 +16,8 @@ import com.wirewheel.wirewheel.R;
  */
 public class HomeFragment extends Fragment {
 
-    private static final String LAT = "27.5855124";
-    private static final String LONG = "-80.4268963";
+    // private static final String LAT = "27.5855124";
+    // private static final String LONG = "-80.4268963";
 
     private Button mCallButton;
     private Button mEmailButton;
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
             //TODO: Add better functionality to maps intent
             @Override
             public void onClick(View v) {
-                Uri intentUri = Uri.parse("geo:" + LAT + "," + LONG);
+                Uri intentUri = Uri.parse("geo:0,0?q=" + getString(R.string.address));
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, intentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
