@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
@@ -33,6 +35,8 @@ public class AdDialogFragment extends DialogFragment {
     private Listing mListing;
     private TextView descriptionView;
     private ViewPager mViewPager;
+    private ImageButton mCallButton;
+    private ImageButton mEmailButton;
 
     public static AdDialogFragment newInstance(String link, String id) {
         Bundle args = new Bundle();
@@ -48,22 +52,36 @@ public class AdDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String link = (String)getArguments().getSerializable(ARG_LISTING_LINK);
         String id = (String)getArguments().getSerializable(ARG_LISTING_TABLE_ID);
-
         mListing = ListingDatabase.get(getActivity()).getListing(link, id);
 
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_ad, null);
 
-
-        // Append text here
+        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        ImageAdapter imageAdapter = new ImageAdapter();
+        mViewPager.setAdapter(imageAdapter);
 
         descriptionView = (TextView) view.findViewById(R.id.ad_description_view);
         descriptionView.setMovementMethod(new ScrollingMovementMethod());
         descriptionView.append(mListing.getText());
 
-        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        ImageAdapter imageAdapter = new ImageAdapter();
-        mViewPager.setAdapter(imageAdapter);
+        mCallButton = (ImageButton)view.findViewById(R.id.ad_call_button);
+        mCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Add onClickListener
+                Toast.makeText(getActivity(), "Call", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mEmailButton = (ImageButton)view.findViewById(R.id.ad_email_button);
+        mEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Add onClickListener
+                Toast.makeText(getActivity(), "Email", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Build alertDialog
 
