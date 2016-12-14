@@ -127,7 +127,7 @@ public class AdDialogFragment extends DialogFragment {
         public Object instantiateItem(ViewGroup container, int position) {
             Context context = getActivity();
             ImageView imageView = new ImageView(context);
-            Ion.with(imageView).fitCenter().load(mImages[position]);
+            Ion.with(imageView).centerCrop().load(mImages[position]);
 
             container.addView(imageView, 0);
             return imageView;
