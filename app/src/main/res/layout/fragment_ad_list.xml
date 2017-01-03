@@ -5,12 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.wirewheel.ui.RecyclerViewEmptySupport
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </com.wirewheel.ui.RecyclerViewEmptySupport>
 
-    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/list_empty_view"
+        android:text="@string/empty_list"
+        android:textSize="18sp"
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

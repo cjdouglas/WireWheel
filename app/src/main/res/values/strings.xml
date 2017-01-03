@@ -9,4 +9,5 @@
     <string name="email_hint">Email Us!</string>
     <string name="address">995 36th Court SW\n Vero Beach, FL, 32968</string>
     <string name="catch_phrase">...life is too short to drive boring cars!</string>
+    <string name="empty_list">Pull Down to Refresh</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.wirewheel.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +17,7 @@ import com.koushikdutta.ion.Ion;
 import com.wirewheel.listings.Listing;
 import com.wirewheel.listings.ListingDatabase;
 import com.wirewheel.ui.ProportionalImageView;
+import com.wirewheel.ui.RecyclerViewEmptySupport;
 import com.wirewheel.wirewheel.R;
 
 import java.util.List;
@@ -49,8 +48,9 @@ public class AdListFragment extends Fragment {
         return adListFragment;
     }
 
-    private RecyclerView mRecyclerView;
+    private RecyclerViewEmptySupport mRecyclerView;
     private ListingAdapter mListingAdapter;
+    private TextView mEmptyView;
     private String link;
     private String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -71,8 +71,9 @@ public class AdListFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_ad_list, container, false);
 
-        mRecyclerView = (RecyclerView)v.findViewById(R.id.list_recycler_view);
+        mRecyclerView = (RecyclerViewEmptySupport) v.findViewById(R.id.list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setEmptyView(v.findViewById(R.id.list_empty_view));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.list_ad_swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -82,7 +83,6 @@ public class AdListFragment extends Fragment {
                 updateUI();
             }
         });
-
         updateUI();
 
         return v;
@@ -106,6 +106,8 @@ public class AdListFragment extends Fragment {
             mTitleView = (TextView)itemView.findViewById(R.id.list_ad_title);
             mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price_field);
             mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage_field);
+
+            /*
             mFloatingActionButton = (FloatingActionButton)itemView.findViewById(R.id.list_ad_floating_email_button);
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +122,7 @@ public class AdListFragment extends Fragment {
                     startActivity(Intent.createChooser(emailIntent, "I'm Interested!"));
                 }
             });
+            */
         }
 
         public void bindListing(Listing listing) {
