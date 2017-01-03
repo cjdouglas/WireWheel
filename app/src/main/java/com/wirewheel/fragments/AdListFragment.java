@@ -102,10 +102,10 @@ public class AdListFragment extends Fragment {
             super(itemView);
             itemView.setOnClickListener(this);
 
-            mThumbnailView = (ProportionalImageView)itemView.findViewById(R.id.list_ad_thumbnail);
+            mThumbnailView = (ProportionalImageView)itemView.findViewById(R.id.list_ad_photo);
             mTitleView = (TextView)itemView.findViewById(R.id.list_ad_title);
-            mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price_field);
-            mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage_field);
+            mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price);
+            mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage);
 
             /*
             mFloatingActionButton = (FloatingActionButton)itemView.findViewById(R.id.list_ad_floating_email_button);
