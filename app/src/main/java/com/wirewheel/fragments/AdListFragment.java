@@ -1,5 +1,7 @@
 package com.wirewheel.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -67,7 +69,7 @@ public class AdListFragment extends Fragment {
         }
 
         // ListingDatabase.get(getActivity()).refreshPage(link, id);
-        new RefreshTask().execute();
+        // new RefreshTask().execute();
 
         View v = inflater.inflate(R.layout.fragment_ad_list, container, false);
 
@@ -107,12 +109,11 @@ public class AdListFragment extends Fragment {
             mPriceView = (TextView)itemView.findViewById(R.id.list_ad_price);
             mMileageView = (TextView)itemView.findViewById(R.id.list_ad_mileage);
 
-            /*
-            mFloatingActionButton = (FloatingActionButton)itemView.findViewById(R.id.list_ad_floating_email_button);
+
+            mFloatingActionButton = (FloatingActionButton)itemView.findViewById(R.id.list_ad_fab);
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Toast.makeText(getActivity(), "Email Filler", Toast.LENGTH_SHORT).show();
                     String subject = "Interested in your " + mListing.getTitle();
 
                     Intent emailIntent = new Intent(
@@ -122,7 +123,7 @@ public class AdListFragment extends Fragment {
                     startActivity(Intent.createChooser(emailIntent, "I'm Interested!"));
                 }
             });
-            */
+
         }
 
         public void bindListing(Listing listing) {
