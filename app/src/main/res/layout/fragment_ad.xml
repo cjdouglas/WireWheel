@@ -2,58 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
-              android:background="@color/colorAccent"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:background="@drawable/box_grey_outline"
+        android:id="@+id/ad_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="215dp"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/ad_title_view"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:weightSum="2.0"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:background="@color/colorPrimary"
         android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageButton style="?android:borderlessButtonStyle"
-            android:id="@+id/ad_call_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:src="@mipmap/ic_phone"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray" />
-
-        <ImageButton style="?android:borderlessButtonStyle"
-            android:id="@+id/ad_email_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:src="@mipmap/ic_email"/>
-
-    </LinearLayout>
+        android:textSize="@dimen/list_title_size"
+        android:textColor="?colorAccent"
+        tools:text="Lotus Exige S For Sale"/>
 
     <TextView
         android:id="@+id/ad_description_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/box_grey_outline"
         android:scrollbars="vertical"
-        android:layout_marginTop="8dp"
-        android:paddingTop="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:layout_gravity="start"
         android:textSize="@dimen/description_text_size"
         android:textColor="@color/black"
-        tools:text="Filler for description"/>
+        tools:text="Lorem ipsum bacon target\n bacon ipsum bacon confetti."/>
 
 </LinearLayout>

@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
+import com.wirewheel.activites.AdActivity;
 import com.wirewheel.listings.Listing;
 import com.wirewheel.listings.ListingDatabase;
 import com.wirewheel.ui.ProportionalImageView;
@@ -137,9 +137,15 @@ public class AdListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             // Toast.makeText(getActivity(), mListing.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            /*
             FragmentManager fragmentManager = getFragmentManager();
             AdDialogFragment adDialogFragment = AdDialogFragment.newInstance(mListing.getLink(), id);
             adDialogFragment.show(fragmentManager, DIALOG_AD_LISTING);
+            */
+            Intent intent = new Intent(getActivity(), AdActivity.class);
+            intent.putExtra(AdFragment.ARG_LISTING_LINK, mListing.getLink());
+            intent.putExtra(AdFragment.ARG_LISTING_TABLE_ID, id);
+            startActivity(intent);
         }
     }
 

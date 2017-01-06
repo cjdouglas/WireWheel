@@ -55,13 +55,13 @@ public class AdDialogFragment extends DialogFragment {
         mListing = ListingDatabase.get(getActivity()).getListing(link, id);
 
         View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_ad, null);
+                .inflate(R.layout.fragment_ad_dialog, null);
 
-        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        mViewPager = (ViewPager) view.findViewById(R.id.ad_dialog_view_pager);
         ImageAdapter imageAdapter = new ImageAdapter();
         mViewPager.setAdapter(imageAdapter);
 
-        descriptionView = (TextView) view.findViewById(R.id.ad_description_view);
+        descriptionView = (TextView) view.findViewById(R.id.ad_dialog_description_view);
         descriptionView.setMovementMethod(new ScrollingMovementMethod());
         descriptionView.append(mListing.getText());
 

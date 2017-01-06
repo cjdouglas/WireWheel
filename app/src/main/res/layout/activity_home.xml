@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:elevation="16dp">
     
     <RelativeLayout
         android:id="@+id/drawer_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
     </RelativeLayout>
 
     <ListView
@@ -20,8 +20,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="@color/colorAccent">
-
     </ListView>
-
 
 </android.support.v4.widget.DrawerLayout>

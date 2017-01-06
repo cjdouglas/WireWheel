@@ -1,5 +1,6 @@
 package com.wirewheel.activites;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.wirewheel.fragments.AdFragment;
@@ -15,6 +16,8 @@ public class AdActivity extends SingleFragmentActivity {
      */
     @Override
     protected Fragment createFragment() {
-        return new AdFragment();
+        Intent intent = getIntent();
+        return AdFragment.newInstance(intent.getStringExtra(AdFragment.ARG_LISTING_LINK),
+                intent.getStringExtra(AdFragment.ARG_LISTING_TABLE_ID));
     }
 }

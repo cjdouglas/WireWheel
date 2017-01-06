@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name="com.wirewheel.activites.AdListActivity"></activity>
+        <activity android:name="com.wirewheel.activites.AdActivity"></activity>
 
     </application>
 
