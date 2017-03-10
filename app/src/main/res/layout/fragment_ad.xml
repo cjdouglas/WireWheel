@@ -8,7 +8,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/ad_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="215dp"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/ad_title_view"
@@ -31,6 +31,6 @@
         android:paddingRight="8dp"
         android:textSize="@dimen/description_text_size"
         android:textColor="@color/black"
-        tools:text="Lorem ipsum bacon target\n bacon ipsum bacon confetti."/>
+        tools:text="Lorem ipsum bacon target\nbacon ipsum bacon confetti."/>
 
 </LinearLayout>

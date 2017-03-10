@@ -19,7 +19,7 @@ import com.wirewheel.activites.AdActivity;
 import com.wirewheel.listings.Listing;
 import com.wirewheel.listings.ListingDatabase;
 import com.wirewheel.ui.ProportionalImageView;
-import com.wirewheel.ui.RecyclerViewEmptySupport;
+import com.wirewheel.ui.RecyclerViewEmpty;
 import com.wirewheel.wirewheel.R;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class AdListFragment extends Fragment {
         return adListFragment;
     }
 
-    private RecyclerViewEmptySupport mRecyclerView;
+    private RecyclerViewEmpty mRecyclerView;
     private ListingAdapter mListingAdapter;
     private TextView mEmptyView;
     private String link;
@@ -58,7 +58,8 @@ public class AdListFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             link = (String)getArguments().getSerializable(ARG_PAGE_LINK);
@@ -67,13 +68,13 @@ public class AdListFragment extends Fragment {
             link = "http://www.wirewheel.com/LOTUS.html";
             id = "Lotus";
         }
+    }
 
-        // ListingDatabase.get(getActivity()).refreshPage(link, id);
-        // new RefreshTask().execute();
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ad_list, container, false);
 
-        mRecyclerView = (RecyclerViewEmptySupport) v.findViewById(R.id.list_recycler_view);
+        mRecyclerView = (RecyclerViewEmpty) v.findViewById(R.id.list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(v.findViewById(R.id.list_empty_view));
 
@@ -82,12 +83,16 @@ public class AdListFragment extends Fragment {
             @Override
             public void onRefresh() {
                 new RefreshTask().execute();
-                updateUI();
             }
         });
-        updateUI();
 
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle state) {
+        super.onActivityCreated(state);
+        new RefreshTask().execute();
     }
 
     private class ListingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
